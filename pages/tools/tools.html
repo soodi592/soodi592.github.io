@@ -4,30 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="favicon.png" type="image/x-icon">
-    <title>Fetch GitHub Repositories</title>
+    <title>soodi592 GitHub Repositories</title>
     <style>
         body {
             background-color: #0a1b24;
         }
         .repo-container {
             display: flex;
-            flex-wrap: wrap; /* برای قرار دادن div ها در چند خط */
-            justify-content: space-between; /* فاصله بین div ها */
+            flex-wrap: wrap;
+            justify-content: space-between;
             color: white;
         }
         .repo-box {
-            border: 1px solid #ccc; /* حاشیه برای هر div */
-            padding: 10px; /* فاصله داخلی */
-            margin: 10px; /* فاصله خارجی */
-            width: calc(50% - 20px); /* عرض هر div برای دو تا در هر سطر */
-            box-sizing: border-box; /* شامل padding و margin در محاسبه عرض */
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            width: calc(50% - 20px);
+            box-sizing: border-box;
             background-color: #101820;
         }
     </style>
 </head>
 <body>
     <h1 style="text-align: center;font-family: sans-serif;color: white;">soodi592 github repositories</h1>
-    <div id="repo-output" class="repo-container"></div> <!-- عنصر برای نمایش ریپازیتوری‌ها -->
+    <div id="repo-output" class="repo-container"></div>
 
     <script>
         async function fetchRepositories() {
@@ -35,10 +35,9 @@
             const url = `https://api.github.com/users/${username}/repos`;
             const outputDiv = document.getElementById('repo-output');
 
-            // بررسی وجود عنصر outputDiv
             if (!outputDiv) {
                 console.error('Element with id "repo-output" not found.');
-                return; // خروج از تابع در صورت عدم وجود عنصر
+                return;
             }
 
             try {
@@ -47,19 +46,46 @@
                     throw new Error('Network response was not ok');
                 }
                 const repositories = await response.json();
-                
-                // پاک کردن محتوای قبلی
-                outputDiv.innerHTML = ''; 
+                outputDiv.innerHTML = '';
 
-                repositories.forEach(repo => {
+                repositories.forEach(async (repo) => {
+                    if (repo.name === username) return; // Skip profile repository
+
+                    const readmeUrl = `https://api.github.com/repos/${username}/${repo.name}/readme`;
+                    let readmeSnippet = 'No README available';
+
+                    try {
+                        const readmeResponse = await fetch(readmeUrl, {
+                            headers: { Accept: 'application/vnd.github.v3+json' }
+                        });
+
+                        if (readmeResponse.ok) {
+                            const readmeData = await readmeResponse.json();
+                            const readmeContent = decodeURIComponent(escape(atob(readmeData.content))); // Convert Base64 to UTF-8
+                            const escapedContent = readmeContent
+                                .split('\n')
+                                .slice(0, 5)
+                                .map(line => line
+                                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold formatting
+                                    .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>') // Links
+                                    .replace(/</g, '&lt;').replace(/>/g, '&gt;'))
+                                .join('<br>');
+                            readmeSnippet = escapedContent;
+                        }
+                    } catch (readmeError) {
+                        console.error('Error fetching README:', readmeError);
+                    }
+
                     const repoBox = document.createElement('div');
-                    repoBox.className = 'repo-box'; // اضافه کردن کلاس برای استایل
+                    repoBox.className = 'repo-box';
 
                     repoBox.innerHTML = `
-                        <strong>Name:</strong> ${repo.name}<br>
-                        <strong>Description:</strong> ${repo.description || 'No description'}<br>
+                        <strong>Name:</strong> ${repo.name}<br><br>
+                        <strong>Description:</strong> ${repo.description || 'No description'}<br><br>
+                        <strong>README:</strong><br> <div style="white-space: pre-wrap;">${readmeSnippet}</div><br>
                         <strong>URL:</strong> <a href="${repo.html_url}" target="_blank">${repo.html_url}</a>
                     `;
+
                     outputDiv.appendChild(repoBox);
                 });
             } catch (error) {
@@ -67,7 +93,6 @@
             }
         }
 
-        // فراخوانی تابع برای بارگذاری ریپازیتوری‌ها
         fetchRepositories();
     </script>
 </body>
