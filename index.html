@@ -11,13 +11,14 @@
     <header id="header-div" style="background-color: #F9F6EE; width: 100%; position: fixed; top: 0; left: 0; z-index: -1;">
             <div id="header-tools-container">
                 <h1 id="header-name">soodi592</h1>
-                <h2 id="header-tools"><a href="pages/repositories/repositories.html" style="color:#101820;">Repositories</a></h2>
-                <h2 id="header-tools"><a href="pages/experiences/experience.html" style="color:#101820;">Experiences</a></h2>
-                <h2 id="header-tools"><a href="pages/blog.html" style="color:#101820;">Blog</a></h2>
+                <h2 id="header-tools"><a class="no-underlined" href="pages/repositories/repositories.html">Repositories</a></h2><h2>     |     </h2>
+                <h2 id="header-tools"><a class="no-underlined" href="pages/blog.html">Blog</a></h2><h2>     |     </h2>
+                <h2 id="header-tools"><a class="no-underlined" href="pages/experiences/experience.html">Experiences</a></h2>
             </div>
-        </header>
+    </header>
+    
     <div id="account-data-div">
-        <img id="logo-image" src="assets/logo.png"></img>
+        <img class="neon-border" id="logo-image" src="assets/logo.png"></img>
         <h1 id="name">soodi592</h1>
         <h2 id="adjective" style="color: white;">Back-end Developer</h2>
     </div>
@@ -27,6 +28,16 @@
         <a class="contact_buttons" href="https://t.me/soodi_592" style="color: #FEE715; display: inline-block; width: 50px; height: 50px; margin: 10px;"><img src="assets/telegram.svg" alt="Telegram" style="width: 100%; height: 100%; filter: brightness(0) invert(1);"></a>
         <a class="contact_buttons" href="https://github.com/soodi592" style="color: #FEE715; display: inline-block; width: 50px; height: 50px; margin: 10px;"><img src="assets/github.svg" alt="GitHub" style="width: 100%; height: 100%; filter: brightness(0) invert(1);"></a>
     </div>
+
+    <div class="neon-border" style="text-align: center;">
+        <h2>My Slogan</h2>
+        <p id="slogan">Anar Moz Teryak</p>
+    </div>
+
+    <div class="neon-border">
+        <p>Hi Dear!👋 <br> I'm soodi592 & I'm really excited because you came to my website😊<br>I love both back-end & front-end.<br>I make bots in <strong class="blue-bold">Telegram</strong>, <strong class="blue-bold">Bale</strong>
+        , <strong class="blue-bold">Discord</strong>.<br>I started computer when i was 13 years old!</p>
+    </div>
 </body>
 </html>
 
@@ -34,6 +45,24 @@
     body {
         background-color: #101820;
         font-family: 'Vazirmatn', sans-serif;
+    }
+
+    .no-underlined {
+        text-decoration: none;
+        color: #101820;
+        background-color: #F9F6EE;
+        padding: 10px 20px; /* افزایش ارتفاع و عرض */
+        border-radius: 10px; /* گوشه‌های گرد */
+        transition: all 0.3s ease; /* افکت نرم هنگام تغییر */
+        display: inline-block; /* برای اعمال padding و background */
+    }
+
+    .no-underlined:hover {
+        color: #F9F6EE;
+        background-color: #101820;
+        color: #F9F6EE; /* تغییر رنگ متن */
+        background-color: #101820; /* تغییر رنگ پس‌زمینه */
+        transform: scale(1.1); /* کمی بزرگ‌تر شدن لینک در حالت هاور */
     }
 
     #name {
@@ -45,17 +74,21 @@
 
     #header-div {
         position: sticky;
+        max-height: 90px;
+        align-items: center;
+        display: flex;
+        align-items: center;
     }
 
     #header-name {
         margin-left: 20px;
         flex-grow: 1;
-        font-size: 20px;
+        font-size: 40px;
     }
 
     #account-data-div {
         max-width: fit-content;
-        margin: 100px auto;
+        margin: 110px auto;
         line-height: 15px;
         text-align: center;
     }
@@ -84,9 +117,41 @@
     #header-tools-container {
         display: flex;
         align-items: center;
+        width: 1000px;
+        margin-inline: auto;
     }
 
     #header-tools {
         margin: 0 10px;
+    }
+
+    .neon-border {
+      padding: 15px 15px;
+      line-height: normal;
+      color: #fff;
+      border: 4px solid #FFF8DC;
+      border-radius: 8px;
+      animation: neon-pulse 1.5s infinite alternate;
+      transition: transform 0.3s ease;
+      max-width: 900px;
+      margin-inline: auto;
+      margin-top: 20px;
+    }
+
+    .neon-border:hover {
+      transform: scale(1.1);
+    }
+
+    @keyframes neon-pulse {
+      0% {
+        box-shadow: 0 0 5px #FFF8DC, 0 0 10px #FFF8DC, 0 0 20px #FFF8DC;
+      }
+      100% {
+        box-shadow: 0 0 10px #FFF8DC, 0 0 20px #FFF8DC, 0 0 40px #FFF8DC;
+      }
+    }
+
+    .blue-bold {
+        color: #1d7ad6;
     }
 </style>
