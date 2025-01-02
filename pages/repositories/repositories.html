@@ -66,9 +66,10 @@
                                 .split('\n')
                                 .slice(0, 5)
                                 .map(line => line
-                                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold formatting
-                                    .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>') // Links
-                                    .replace(/</g, '&lt;').replace(/>/g, '&gt;'))
+                                    .replace(/\*\*(.*?)\*\*/g, '$1') // حذف Bold formatting
+                                    .replace(/\[(.*?)\]\((.*?)\)/g, '$1') // حذف Links
+                                    .replace(/#/g, '') // حذف هشتگ‌ها
+                                    .replace(/<[^>]*>/g, '')) // حذف تمام تگ‌های HTML
                                 .join('<br>');
                             readmeSnippet = escapedContent;
                         }
